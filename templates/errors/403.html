@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="text-center mt-5">
+    <h1 class="display-1 text-warning font-weight-bold" style="text-shadow: 2px 2px 10px orange;">403</h1>
+    <h3 class="text-uppercase text-white">>> ERROR: PERMISSION_DENIED</h3>
+    <p class="text-muted mt-3">
+        Access to this sector is restricted.<br>
+        Your security clearance level is insufficient for this action.
+    </p>
+    <div class="mt-4">
+        <a href="{{ url_for('home') }}" class="btn btn-outline-warning btn-lg">ABORT_MISSION</a>
+    </div>
+    
+    <pre class="text-warning mt-5" style="font-size: 10px;">
+       .---.
+      /     \
+      |  O  |   SECURITY PROTOCOL: ACTIVE
+      |  |  |   IP ADDRESS LOGGED...
+      \  |  /
+       '-|-'
+         |
+     [LOCKED]
+    </pre>
+</div>
+{% endblock content %}

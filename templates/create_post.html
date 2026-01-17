@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="cyber-card">
+    <h2 class="border-bottom border-success mb-4 text-white">>> {{ legend }}</h2>
+    <form method="POST" action="" enctype="multipart/form-data">
+        {{ form.hidden_tag() }}
+        <fieldset class="form-group">
+            <div class="form-group">
+                {{ form.title.label(class="form-control-label text-white") }}
+                {% if form.title.errors %}
+                    {{ form.title(class="form-control is-invalid bg-dark text-white") }}
+                    <div class="invalid-feedback">{% for error in form.title.errors %}<span>{{ error }}</span>{% endfor %}</div>
+                {% else %}
+                    {{ form.title(class="form-control bg-dark text-white border-success") }}
+                {% endif %}
+            </div>
+            <div class="form-group">
+                {{ form.category.label(class="form-control-label text-white") }}
+                {{ form.category(class="form-control bg-dark text-white border-success") }}
+            </div>
+            <div class="form-group">
+                {{ form.content.label(class="form-control-label text-white") }}
+                {% if form.content.errors %}
+                    {{ form.content(class="form-control is-invalid bg-dark text-white") }}
+                    <div class="invalid-feedback">{% for error in form.content.errors %}<span>{{ error }}</span>{% endfor %}</div>
+                {% else %}
+                    {{ form.content(class="form-control bg-dark text-white border-success", rows=10) }}
+                {% endif %}
+            </div>
+            <div class="form-group">
+                {{ form.image.label(class="text-white") }}
+                {{ form.image(class="form-control-file text-white") }}
+                {% if form.image.errors %}
+                    {% for error in form.image.errors %}<span class="text-danger">{{ error }}</span>{% endfor %}
+                {% endif %}
+            </div>
+        </fieldset>
+        
+        <div class="form-group d-flex justify-content-between">
+            {{ form.submit(class="btn btn-outline-success btn-lg") }}
+            
+            {% if legend == 'რედაქტირება' %}
+                <a href="javascript:history.back()" class="btn btn-outline-secondary btn-lg">ABORT / GO BACK</a>
+            {% else %}
+                <a href="{{ url_for('home') }}" class="btn btn-outline-secondary btn-lg">CANCEL</a>
+            {% endif %}
+        </div>
+    </form>
+</div>
+{% endblock content %}

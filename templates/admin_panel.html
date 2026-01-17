@@ -1,0 +1,112 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container-fluid">
+    <h1 class="text-danger mb-4 text-center">>> ROOT_ACCESS_GRANTED: ADMIN_PANEL</h1>
+    
+    <div class="row mb-5 text-center">
+        <div class="col-md-6">
+            <div class="cyber-card border-danger">
+                <h3 class="text-white">TOTAL USERS</h3>
+                <h1 class="text-danger display-4">{{ users|length }}</h1>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="cyber-card border-danger">
+                <h3 class="text-white">TOTAL TRANSMISSIONS</h3>
+                <h1 class="text-danger display-4">{{ posts|length }}</h1>
+            </div>
+        </div>
+    </div>
+
+    <h3 class="text-white border-bottom border-danger pb-2 mb-3">>> USER_DATABASE</h3>
+    <div class="table-responsive mb-5">
+        <table class="table table-dark table-hover table-bordered border-danger" style="border: 1px solid red;">
+            <thead>
+                <tr class="text-danger text-uppercase">
+                    <th>ID</th>
+                    <th>Username</th>
+                    <th>Email</th>
+                    <th>Rank</th>
+                    <th>Role</th>
+                    <th>Joined</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user in users %}
+                <tr>
+                    <td>{{ user.id }}</td>
+                    <td>
+                        <img class="rounded-circle mr-2" src="{{ url_for('static', filename='profile_pics/' + user.image_file) }}" width="30" height="30">
+                        {{ user.username }}
+                    </td>
+                    <td>{{ user.email }}</td>
+                    <td class="text-success">{{ user.rank }}</td>
+                    <td>
+                        {% if user.is_admin %}
+                            <span class="badge badge-danger">ADMIN / ROOT</span>
+                        {% else %}
+                            <span class="badge badge-secondary">USER</span>
+                        {% endif %}
+                    </td>
+                    <td>{{ user.created_at.strftime('%Y-%m-%d') }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <h3 class="text-white border-bottom border-danger pb-2 mb-3">>> CONTENT_OVERRIDE</h3>
+    <div class="table-responsive">
+        <table class="table table-dark table-hover table-bordered border-danger">
+            <thead>
+                <tr class="text-danger text-uppercase">
+                    <th>ID</th>
+                    <th>Title</th>
+                    <th>Author</th>
+                    <th>Category</th>
+                    <th>Date</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for post in posts %}
+                <tr>
+                    <td>{{ post.id }}</td>
+                    <td><a href="{{ url_for('post', post_id=post.id) }}" class="text-white">{{ post.title }}</a></td>
+                    <td>{{ post.author.username }}</td>
+                    <td><span class="badge badge-outline-success">{{ post.category }}</span></td>
+                    <td>{{ post.date_posted.strftime('%Y-%m-%d') }}</td>
+                    <td>
+                        <button type="button" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#deleteModal{{ post.id }}">
+                            PURGE
+                        </button>
+
+                        <div class="modal fade" id="deleteModal{{ post.id }}" tabindex="-1" role="dialog">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content bg-dark border border-danger">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title text-danger">CONFIRM PURGE</h5>
+                                        <button type="button" class="close text-white" data-dismiss="modal">
+                                            <span>&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body text-white">
+                                        Delete post: <strong>"{{ post.title }}"</strong>? This action cannot be undone.
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">CANCEL</button>
+                                        <form action="{{ url_for('delete_post', post_id=post.id) }}" method="POST">
+                                            <input class="btn btn-danger" type="submit" value="EXECUTE DELETE">
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock content %}

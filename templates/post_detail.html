@@ -1,0 +1,98 @@
+{% extends "base.html" %}
+{% block content %}
+<article class="cyber-card">
+    <div class="d-flex justify-content-between">
+        <div class="media">
+            <img class="rounded-circle border border-success article-img" src="{{ url_for('static', filename='profile_pics/' + post.author.image_file) }}" style="width: 50px; height: 50px;">
+            <div class="media-body ml-3">
+                <div class="article-metadata">
+                    <a class="mr-2 text-success font-weight-bold" href="#">{{ post.author.username }}</a>
+                    <span class="badge badge-secondary">{{ post.author.rank }}</span>
+                    <small class="text-muted ml-2">{{ post.date_posted.strftime('%Y-%m-%d') }}</small>
+                    {% if post.author == current_user or current_user.is_admin %}
+                        <div class="mt-2">
+                            <a class="btn btn-outline-info btn-sm" href="{{ url_for('update_post', post_id=post.id) }}">EDIT</a>
+                            <button type="button" class="btn btn-outline-danger btn-sm" data-toggle="modal" data-target="#deleteModal">DELETE</button>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        <span class="badge badge-success align-self-start">{{ post.category }}</span>
+    </div>
+    
+    <h2 class="article-title mt-3 text-white">{{ post.title }}</h2>
+    
+    {% if post.image_file %}
+        <div class="text-center my-3">
+            <img src="{{ url_for('static', filename='post_pics/' + post.image_file) }}" class="img-fluid border border-success" alt="Post Image">
+        </div>
+    {% endif %}
+
+    <p class="article-content mt-3 text-white" style="white-space: pre-wrap;">{{ post.content }}</p>
+    
+    <hr class="bg-success">
+    
+    <div class="d-flex align-items-center">
+        <a href="{{ url_for('like_post', post_id=post.id) }}" class="btn btn-sm btn-outline-danger mr-3">
+            {% if current_user in post.liked_by %} ❤️ LIKED {% else %} 🤍 LIKE {% endif %}
+            <span class="badge badge-light">{{ post.liked_by.count() }}</span>
+        </a>
+        <span class="text-muted">Views: {{ post.views }}</span>
+    </div>
+</article>
+
+<div class="mt-5">
+    <h4 class="text-white border-bottom border-success pb-2">TRANSMISSIONS ({{ post.comments|length }})</h4>
+    
+    {% if current_user.is_authenticated %}
+        <div class="cyber-card p-3 my-3">
+            <form method="POST">
+                {{ form.hidden_tag() }}
+                <div class="form-group">
+                    {{ form.content(class="form-control bg-dark text-white border-success", placeholder="Leave a transmission...", rows=2) }}
+                </div>
+                {{ form.submit(class="btn btn-sm btn-success") }}
+            </form>
+        </div>
+    {% else %}
+        <p class="text-muted">Log in to send transmissions.</p>
+    {% endif %}
+
+    {% for comment in post.comments %}
+        <div class="media mb-3 p-3" style="border-left: 2px solid #00ff41; background: rgba(0,0,0,0.5);">
+            <img class="mr-3 rounded-circle" src="{{ url_for('static', filename='profile_pics/' + comment.author.image_file) }}" alt="User" style="width: 35px;">
+            <div class="media-body">
+                <h6 class="mt-0 text-success">
+                    {{ comment.author.username }} 
+                    <small class="text-secondary">[{{ comment.author.rank }}]</small>
+                    <small class="text-muted float-right">{{ time_ago(comment.date_posted) }}</small>
+                </h6>
+                <p class="text-white mb-0">{{ comment.content }}</p>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content bg-dark border border-success">
+      <div class="modal-header">
+        <h5 class="modal-title text-danger" id="deleteModalLabel">WARNING: DESTRUCTIVE ACTION</h5>
+        <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body text-white">
+        დარწმუნებული ხართ, რომ გსურთ ამ მონაცემის სამუდამოდ წაშლა? დაბრუნება შეუძლებელია.
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">CANCEL</button>
+        <form action="{{ url_for('delete_post', post_id=post.id) }}" method="POST">
+            <input class="btn btn-danger" type="submit" value="CONFIRM DELETE">
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock content %}

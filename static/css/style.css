@@ -1,0 +1,86 @@
+/* CYBERPUNK THEME */
+:root {
+    --cyber-black: #050505;
+    --cyber-green: #00ff41;
+    --cyber-neon: #39ff14;
+    --cyber-dark-grey: #1a1a1a;
+    --cyber-border: 1px solid #00ff41;
+}
+
+body {
+    background-color: var(--cyber-black);
+    color: var(--cyber-green);
+    font-family: 'Courier New', Courier, monospace;
+    overflow-x: hidden;
+    
+    background-image: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url('../img/bg.jpg');
+    background-size: cover;
+    background-attachment: fixed;
+    background-position: center;
+}
+
+
+/* CRT SCANLINE EFFECT */
+body::before {
+    content: " ";
+    display: block;
+    position: fixed;
+    top: 0; left: 0; bottom: 0; right: 0;
+    background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), 
+                linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+    z-index: 9999;
+    background-size: 100% 2px, 3px 100%;
+    pointer-events: none;
+}
+
+/* NEON CARDS & GLASSMORPHISM */
+.cyber-card {
+    background: rgba(26, 26, 26, 0.8);
+    border: var(--cyber-border);
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 255, 65, 0.2);
+    transition: 0.3s;
+    margin-bottom: 20px;
+    padding: 20px;
+}
+
+.cyber-card:hover {
+    box-shadow: 0 0 20px rgba(0, 255, 65, 0.5);
+}
+
+/* NAVBAR STYLING */
+.navbar {
+    border-bottom: var(--cyber-border);
+    background-color: var(--cyber-black) !important;
+}
+
+.nav-link, .navbar-brand {
+    color: var(--cyber-green) !important;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+/* FLASH MESSAGES - NEON ALERTS */
+.cyber-alert {
+    border: 1px solid;
+    padding: 15px;
+    margin-bottom: 20px;
+    background: rgba(0, 0, 0, 0.9);
+    text-transform: uppercase;
+    animation: blink 2s infinite;
+}
+
+@keyframes blink {
+    0% { opacity: 1; }
+    50% { opacity: 0.7; }
+    100% { opacity: 1; }
+}
+
+.cyber-success { color: #00ff41; border-color: #00ff41; box-shadow: 0 0 10px #00ff41; }
+.cyber-danger { color: #ff003c; border-color: #ff003c; box-shadow: 0 0 10px #ff003c; }
+
+/* TBC LOGO */
+.tbc-logo {
+    width: 100px;
+    filter: brightness(0) invert(1) sepia(1) saturate(5) hue-rotate(90deg); /* Make it neon green */
+}

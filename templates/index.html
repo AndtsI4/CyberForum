@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block content %}
+    <h2 class="mb-4 text-white">LATEST_TRANSMISSIONS {% if q %}(SEARCH: {{ q }}){% endif %}</h2>
+    
+    {% for post in posts.items %}
+        <article class="cyber-card">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+                <small class="text-muted">ID: #{{ post.id }} | USER: {{ post.author.username }} [{{ post.author.rank }}]</small>
+                <span class="badge badge-outline-success">{{ post.category }}</span>
+            </div>
+            <h3><a href="{{ url_for('post', post_id=post.id) }}" class="text-white">{{ post.title }}</a></h3>
+            <p>{{ post.content[:150] }}...</p>
+            <hr class="bg-success">
+            <div class="d-flex justify-content-between">
+                <small>READ_TIME: ~{{ post.reading_time }} MIN | {{ time_ago(post.date_posted) }}</small>
+                <div>
+                    <span>👁️ {{ post.views }}</span> | 
+                    <span>❤️ {{ post.liked_by.count() }}</span>
+                </div>
+            </div>
+        </article>
+    {% endfor %}
+
+    <div class="mt-4">
+        {% for page_num in posts.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
+            {% if page_num %}
+                {% if posts.page == page_num %}
+                    <a class="btn btn-success mb-4" href="{{ url_for('home', page=page_num) }}">{{ page_num }}</a>
+                {% else %}
+                    <a class="btn btn-outline-success mb-4" href="{{ url_for('home', page=page_num) }}">{{ page_num }}</a>
+                {% endif %}
+            {% else %}
+                ...
+            {% endif %}
+        {% endfor %}
+    </div>
+{% endblock content %}

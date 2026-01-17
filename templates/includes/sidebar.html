@@ -1,0 +1,34 @@
+<div class="col-md-4">
+    <div class="cyber-card">
+        <h3>SEARCH_DB</h3>
+        <form action="{{ url_for('home') }}" method="GET">
+            <input type="text" name="q" class="form-control bg-dark text-white border-success" placeholder="Keywords..." value="{{ request.args.get('q', '') }}">
+            <button class="btn btn-outline-success btn-block mt-2">QUERY</button>
+        </form>
+    </div>
+    
+    <div class="cyber-card">
+        <h3>CHANNELS</h3>
+        <ul class="list-unstyled">
+            <li><a href="{{ url_for('home', category='Software Engineering') }}">💻 Software Engineering</a></li>
+            <li><a href="{{ url_for('home', category='Web Developing') }}">🌐 Web Developing</a></li>
+            <li><a href="{{ url_for('home', category='Exploiting') }}">💣 Exploiting</a></li>
+            <li><a href="{{ url_for('home', category='Ethical Hacking') }}">🛡️ Ethical Hacking</a></li>
+            <li><a href="{{ url_for('home', category='Linux') }}">🐧 Linux Mastery</a></li>
+            <li><a href="{{ url_for('home', category='Cybersecurity') }}">🔐 Cybersecurity</a></li>
+            <li><a href="{{ url_for('home', category='Coding') }}">☕ General Coding</a></li>
+            <li><a href="{{ url_for('home', category='General Discussion') }}">🦜 General Discussion</a></li>
+            <li><a href="{{ url_for('home', category='Malware') }}">🦠 Malware Sector</a></li>
+        </ul>
+    </div>
+    
+    <div class="cyber-card border-warning">
+        <h5 class="text-warning">SYSTEM_STATUS</h5>
+        <small class="text-muted">Server Time: {{ date_now }}</small><br>
+        <small class="text-muted">Security Level: MAX</small>
+        <div class="progress mt-2" style="height: 5px; background-color: #333;">
+            <div class="progress-bar bg-success" role="progressbar" style="width: 85%"></div>
+        </div>
+        <small class="text-success mt-1 d-block">System: Operational</small>
+    </div>
+</div>

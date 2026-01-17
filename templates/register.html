@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="cyber-card">
+            <h2 class="text-center text-success mb-4">>> SYSTEM_INITIALIZE_USER</h2>
+            <form method="POST" action="">
+                {{ form.hidden_tag() }}
+                
+                <div class="form-group">
+                    {{ form.username.label(class="text-white") }}
+                    {% if form.username.errors %}
+                        {{ form.username(class="form-control is-invalid bg-dark text-white") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.username.errors %} <span>{{ error }}</span> {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.username(class="form-control bg-dark text-white border-success") }}
+                    {% endif %}
+                </div>
+
+                <div class="form-group">
+                    {{ form.email.label(class="text-white") }}
+                    {% if form.email.errors %}
+                        {{ form.email(class="form-control is-invalid bg-dark text-white") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.email.errors %} <span>{{ error }}</span> {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.email(class="form-control bg-dark text-white border-success") }}
+                    {% endif %}
+                </div>
+
+                <div class="form-group">
+                    {{ form.bio.label(class="text-white") }}
+                    {{ form.bio(class="form-control bg-dark text-white border-success", rows=3) }}
+                </div>
+
+                <div class="form-group">
+                    {{ form.password.label(class="text-white") }}
+                    {% if form.password.errors %}
+                        {{ form.password(class="form-control is-invalid bg-dark text-white") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.password.errors %} <span>{{ error }}</span> {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.password(class="form-control bg-dark text-white border-success") }}
+                    {% endif %}
+                </div>
+
+                <div class="form-group">
+                    {{ form.confirm_password.label(class="text-white") }}
+                    {% if form.confirm_password.errors %}
+                        {{ form.confirm_password(class="form-control is-invalid bg-dark text-white") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.confirm_password.errors %} <span>{{ error }}</span> {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.confirm_password(class="form-control bg-dark text-white border-success") }}
+                    {% endif %}
+                </div>
+
+                <div class="form-group mt-4">
+                    {{ form.submit(class="btn btn-outline-success btn-block") }}
+                </div>
+            </form>
+            <div class="border-top pt-3 mt-3 text-center">
+                <small class="text-muted">უკვე გაქვთ წვდომა? <a class="ml-2 text-success" href="{{ url_for('login') }}">ACCESS_GRANT</a></small>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}
